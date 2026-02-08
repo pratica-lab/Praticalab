@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prática Lab - Soluções Digitais Rápidas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Configuração do Tailwind para modo escuro
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Efeito de Mockup 3D para as capas */
+        .book-container {
+            perspective: 1000px;
+        }
+        
+        .book-card {
+            width: 180px;
+            height: 260px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-25deg);
+            transition: transform 0.5s ease;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .book-card:hover {
+            transform: rotateY(0deg);
+        }
+
+        .book-spine {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: #2d3748;
+            transform: rotateY(-90deg);
+            transform-origin: left;
+        }
+
+        .category-tab.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .pix-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.6em;
+            border: 2px solid currentColor;
+            border-radius: 4px;
+            padding: 2px 4px;
+            line-height: 1;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+
+    <!-- Botão de Alternância de Tema -->
+    <div class="fixed top-4 right-4 z-[100]">
+        <button onclick="toggleTheme()" class="p-3 rounded-full bg-white shadow-lg text-gray-800 dark:bg-gray-800 dark:text-yellow-400 transition-all hover:scale-110 active:scale-95">
+            <i id="theme-icon" class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- 1. Cabeçalho de Autoridade -->
+    <header class="bg-white border-b border-gray-100 py-20 px-4 text-center transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-4 inline-block text-blue-600 dark:text-blue-400">
+                <span class="text-3xl font-black tracking-tighter uppercase">Prática Lab</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight dark:text-white leading-tight">
+                Soluções rápidas para quem não tem tempo a perder.
+            </h1>
+            <p class="text-xl text-gray-600 font-light max-w-2xl mx-auto dark:text-gray-300">
+                Guias passo a passo criados para poupar o teu tempo e acelerar os teus resultados no mundo digital.
+            </p>
+        </div>
+    </header>
+
+    <!-- 2. Categorias Claras (Navegação) -->
+    <nav class="sticky top-0 bg-white/90 backdrop-blur-md shadow-sm z-50 py-4 transition-colors duration-300 dark:bg-gray-900/90 dark:border-b dark:border-gray-800">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="filterCategory('all')" class="category-tab active flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 transition-all font-medium dark:border-gray-700 dark:text-gray-300">
+                    <i class="fas fa-th-large"></i> Todos
+                </button>
+                <button onclick="filterCategory('culinaria')" class="category-tab flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 transition-all font-medium hover:border-blue-400 dark:border-gray-700 dark:text-gray-300">
+                    <span>🍳</span> Culinária & Saúde
+                </button>
+                <button onclick="filterCategory('negocios')" class="category-tab flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 transition-all font-medium hover:border-blue-400 dark:border-gray-700 dark:text-gray-300">
+                    <span>💰</span> Negócios & IA
+                </button>
+                <button onclick="filterCategory('mente')" class="category-tab flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 transition-all font-medium hover:border-blue-400 dark:border-gray-700 dark:text-gray-300">
+                    <span>🧠</span> Mente & Produtividade
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. Grelha de Produtos -->
+    <main class="max-w-6xl mx-auto px-4 py-16">
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24">
+            
+            <!-- Card 1: Negócios -->
+            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:-translate-y-2 dark:bg-gray-800 dark:shadow-none" data-category="negocios">
+                <div class="book-container mb-8">
+                    <div class="book-card bg-gradient-to-br from-blue-600 to-indigo-800 rounded-r-lg overflow-hidden flex items-center justify-center p-4">
+                        <div class="book-spine"></div>
+                        <div class="text-white text-left">
+                            <i class="fas fa-robot text-4xl mb-2 opacity-50"></i>
+                            <p class="font-bold text-lg leading-tight">Domina o ChatGPT em 24h</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full">
+                    <div class="flex justify-center text-yellow-400 mb-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">(4.9/5)</p>
+                    
+                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight">IA Lucrativa: Guia Mestre</h3>
+                    <p class="text-gray-600 mb-6 italic dark:text-gray-400">Aprende a automatizar o teu negócio em apenas 7 dias.</p>
+                    
+                    <div class="flex items-center justify-center gap-4 mb-6">
+                        <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold dark:bg-green-900/40 dark:text-green-400">
+                            <i class="fas fa-check-circle mr-1"></i> Download Imediato
+                        </span>
+                    </div>
+
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-200 uppercase tracking-wide">
+                        SABER MAIS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 2: Saúde -->
+            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:-translate-y-2 dark:bg-gray-800 dark:shadow-none" data-category="culinaria">
+                <div class="book-container mb-8">
+                    <div class="book-card bg-gradient-to-br from-green-500 to-teal-700 rounded-r-lg overflow-hidden flex items-center justify-center p-4">
+                        <div class="book-spine"></div>
+                        <div class="text-white text-left">
+                            <i class="fas fa-leaf text-4xl mb-2 opacity-50"></i>
+                            <p class="font-bold text-lg leading-tight">Receitas Detox Rápidas</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full">
+                    <div class="flex justify-center text-yellow-400 mb-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">(4.9/5)</p>
+                    
+                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight">Culinária Vitalidade</h3>
+                    <p class="text-gray-600 mb-6 italic dark:text-gray-400">Aprende a cozinhar saudável em apenas 15 minutos.</p>
+                    
+                    <div class="flex items-center justify-center gap-4 mb-6">
+                        <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold dark:bg-green-900/40 dark:text-green-400">
+                            <i class="fas fa-check-circle mr-1"></i> Download Imediato
+                        </span>
+                    </div>
+
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-200 uppercase tracking-wide">
+                        SABER MAIS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 3: Mente -->
+            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:-translate-y-2 dark:bg-gray-800 dark:shadow-none" data-category="mente">
+                <div class="book-container mb-8">
+                    <div class="book-card bg-gradient-to-br from-purple-600 to-pink-800 rounded-r-lg overflow-hidden flex items-center justify-center p-4">
+                        <div class="book-spine"></div>
+                        <div class="text-white text-left">
+                            <i class="fas fa-brain text-4xl mb-2 opacity-50"></i>
+                            <p class="font-bold text-lg leading-tight">Foco Total & Flow</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full">
+                    <div class="flex justify-center text-yellow-400 mb-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">(4.8/5)</p>
+                    
+                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight">Mente de Aço</h3>
+                    <p class="text-gray-600 mb-6 italic dark:text-gray-400">Aprende a eliminar distrações em apenas 48 horas.</p>
+                    
+                    <div class="flex items-center justify-center gap-4 mb-6">
+                        <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold dark:bg-green-900/40 dark:text-green-400">
+                            <i class="fas fa-check-circle mr-1"></i> Download Imediato
+                        </span>
+                    </div>
+
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-200 uppercase tracking-wide">
+                        SABER MAIS
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Secção Sobre Nós -->
+        <section id="sobre" class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-[3rem] p-10 md:p-16 shadow-2xl shadow-blue-500/5 transition-colors duration-300">
+            <div class="text-center mb-10">
+                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-4">Manifesto</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">Sobre a Prática Lab</h3>
+            </div>
+            
+            <div class="space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-light">
+                <p>
+                    Na <span class="font-bold text-gray-900 dark:text-white">Prática Lab</span>, acreditamos que o conhecimento só tem valor quando pode ser aplicado agora. Vivemos num mundo com excesso de informação e falta de tempo, por isso, decidimos filtrar o ruído por ti.
+                </p>
+                <p>
+                    O nosso laboratório nasceu com uma missão clara: criar guias digitais que sejam diretos, visuais e 100% executáveis.
+                </p>
+                <p>
+                    Nós cortamos as distrações. O que encontras aqui são manuais <span class="italic text-blue-600 dark:text-blue-400">"direto ao ponto"</span>, desenhados para que possas abrir o ficheiro e começar a aplicar os resultados no mesmo minuto. Sem termos complicados, sem perda de tempo.
+                </p>
+                <div class="pt-6 border-t border-gray-100 dark:border-gray-700 text-center">
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">
+                        Prática Lab: Soluções rápidas para quem não tem tempo a perder.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 5. Rodapé de Segurança -->
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center mb-12">
+                <!-- Segurança -->
+                <div class="text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2 text-green-600 font-bold mb-4 dark:text-green-400">
+                        <i class="fas fa-lock text-xl"></i>
+                        <span>SITE 100% SEGURO</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">A tua privacidade e segurança são as nossas prioridades. Navegação protegida por SSL.</p>
+                </div>
+
+                <!-- Pagamentos -->
+                <div class="text-center">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 dark:text-gray-500">Pagamento Seguro</p>
+                    <div class="flex flex-wrap justify-center gap-6 text-3xl text-gray-300 dark:text-gray-600">
+                        <span class="pix-icon hover:text-cyan-500 transition-colors cursor-default" title="Pix">PIX</span>
+                        <i class="fab fa-cc-visa hover:text-blue-600 transition-colors"></i>
+                        <i class="fab fa-cc-mastercard hover:text-red-500 transition-colors"></i>
+                    </div>
+                    <p class="text-[10px] mt-2 text-gray-400 font-medium dark:text-gray-500 uppercase tracking-wider">Pix · Visa · Mastercard</p>
+                </div>
+
+                <!-- Contacto -->
+                <div class="text-center md:text-right">
+                    <p class="text-sm font-semibold text-gray-900 mb-1 dark:text-white uppercase tracking-tighter">Prática Lab</p>
+                    <a href="mailto:praticalab@outlook.com" class="text-blue-600 hover:underline text-sm break-all dark:text-blue-400 font-medium">praticalab@outlook.com</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-50 pt-8 text-center dark:border-gray-700">
+                <p class="text-xs text-gray-400">© 2026 Prática Lab. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function filterCategory(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if(tab.innerText.toLowerCase().includes(category) || (category === 'all' && tab.innerText.includes('Todos'))) {
+                    tab.classList.add('active');
+                }
+            });
+
+            const products = document.querySelectorAll('.product-card-container');
+            products.forEach(product => {
+                if (category === 'all' || product.getAttribute('data-category') === category) {
+                    product.style.display = 'flex';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+    </script>
+</body>
+</html>
