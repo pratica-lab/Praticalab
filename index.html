@@ -32,6 +32,7 @@
             transform: rotateY(-25deg);
             transition: transform 0.5s ease;
             box-shadow: 15px 15px 30px rgba(0,0,0,0.2);
+            background-color: #f3f4f6;
         }
 
         .book-card:hover {
@@ -47,6 +48,7 @@
             background: #2d3748;
             transform: rotateY(-90deg);
             transform-origin: left;
+            z-index: 10;
         }
 
         .category-tab.active {
@@ -68,10 +70,16 @@
             vertical-align: middle;
         }
 
-        /* Modal Styles */
         .modal-overlay {
             backdrop-filter: blur(8px);
             transition: opacity 0.3s ease;
+        }
+        
+        .book-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
     </style>
 </head>
@@ -85,15 +93,15 @@
     </div>
 
     <!-- 1. Cabeçalho -->
-    <header class="bg-white border-b border-gray-100 py-20 px-4 text-center transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
+    <header class="bg-white border-b border-gray-100 py-16 px-4 text-center transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
         <div class="max-w-4xl mx-auto">
             <div class="mb-4 inline-block text-blue-600 dark:text-blue-400">
                 <span class="text-3xl font-black tracking-tighter uppercase">Prática Lab</span>
             </div>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight dark:text-white leading-tight">
+            <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight dark:text-white leading-tight">
                 Soluções rápidas para quem não tem tempo a perder.
             </h1>
-            <p class="text-xl text-gray-600 font-light max-w-2xl mx-auto dark:text-gray-300">
+            <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto dark:text-gray-300">
                 Guias passo a passo criados para poupar o teu tempo e acelerar os teus resultados no mundo digital.
             </p>
         </div>
@@ -123,13 +131,12 @@
     <main class="max-w-6xl mx-auto px-4 py-16">
         <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24">
             
-            <!-- AIRFRYER EM 15 MINUTOS -->
+            <!-- AIRFRYER EM 15 MINUTOS (ATIVO) -->
             <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:-translate-y-2 dark:bg-gray-800 dark:shadow-none" data-category="culinaria">
                 <div class="book-container mb-8">
-                    <div class="book-card bg-gray-100 dark:bg-gray-700 rounded-r-lg overflow-hidden flex items-center justify-center">
+                    <div class="book-card rounded-r-lg overflow-hidden flex items-center justify-center">
                         <div class="book-spine"></div>
-                        <!-- Imagem do Livro com fallback caso não carregue -->
-                        <img src="1000263004.png" alt="Airfryer em 15 Minutos" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x600/3b82f6/white?text=Airfryer+em+15+Minutos';">
+                        <img src="Ebook Prática Lab - Airfryer em 15 minutos_20260210_162542_0000.png" alt="Airfryer em 15 Minutos" class="book-cover-img" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Capa+Airfryer';">
                     </div>
                 </div>
                 
@@ -138,92 +145,63 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">(5.0/5)</p>
-                    
                     <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight">Airfryer em 15 minutos</h3>
                     <p class="text-gray-600 mb-6 italic dark:text-gray-400">40 receitas práticas para quem não tem tempo a perder.</p>
-                    
-                    <div class="mb-6">
-                        <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold dark:bg-green-900/40 dark:text-green-400">
-                            <i class="fas fa-check-circle mr-1"></i> Download Imediato
-                        </span>
-                    </div>
-
-                    <button onclick="openAirfryerModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-200 uppercase tracking-wide">
+                    <div class="mb-6"><span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold dark:bg-green-900/40 dark:text-green-400"><i class="fas fa-check-circle mr-1"></i> Download Imediato</span></div>
+                    <button onclick="openAirfryerModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg uppercase tracking-wide">
                         SABER MAIS
                     </button>
                 </div>
             </div>
 
-            <!-- Card 2: IA Lucrativa (Em Breve) -->
-            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:-translate-y-2 dark:bg-gray-800 dark:shadow-none" data-category="negocios">
-                <div class="book-container mb-8">
-                    <div class="book-card bg-gradient-to-br from-gray-400 to-gray-600 rounded-r-lg flex items-center justify-center p-4">
-                        <div class="book-spine"></div>
-                        <div class="text-white text-left opacity-40">
-                            <i class="fas fa-robot text-4xl mb-2"></i>
-                            <p class="font-bold text-lg leading-tight">Domina o ChatGPT em 24h</p>
-                        </div>
+            <!-- Card 2: Negócios (EM BREVE) -->
+            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all opacity-75 dark:bg-gray-800 dark:shadow-none" data-category="negocios">
+                <div class="book-container mb-8 text-gray-400">
+                    <div class="book-card bg-gray-200 dark:bg-gray-700 rounded-r-lg flex items-center justify-center">
+                        <div class="book-spine opacity-30"></div>
+                        <i class="fas fa-robot text-5xl"></i>
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="flex justify-center text-gray-300 mb-1">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-sm text-gray-400 mb-4 dark:text-gray-500">Próximo Lançamento</p>
-                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight opacity-50">IA Lucrativa: Guia Mestre</h3>
-                    <p class="text-gray-400 mb-6 italic dark:text-gray-500">Automatização de negócios com inteligência artificial.</p>
-                    <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-bold py-4 rounded-2xl uppercase tracking-wide cursor-default">
+                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase opacity-50">IA Lucrativa</h3>
+                    <p class="text-gray-500 mb-6 italic">Soluções inteligentes para o seu negócio.</p>
+                    <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 font-bold py-4 rounded-2xl uppercase cursor-default">
                         Em breve
                     </button>
                 </div>
             </div>
 
-            <!-- Card 3: Mente de Aço (Em Breve) -->
-            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:-translate-y-2 dark:bg-gray-800 dark:shadow-none" data-category="mente">
-                <div class="book-container mb-8">
-                    <div class="book-card bg-gradient-to-br from-gray-400 to-gray-600 rounded-r-lg flex items-center justify-center p-4">
-                        <div class="book-spine"></div>
-                        <div class="text-white text-left opacity-40">
-                            <i class="fas fa-brain text-4xl mb-2"></i>
-                            <p class="font-bold text-lg leading-tight">Foco Total & Flow</p>
-                        </div>
+            <!-- Card 3: Mente (EM BREVE) -->
+            <div class="product-card-container bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all opacity-75 dark:bg-gray-800 dark:shadow-none" data-category="mente">
+                <div class="book-container mb-8 text-gray-400">
+                    <div class="book-card bg-gray-200 dark:bg-gray-700 rounded-r-lg flex items-center justify-center">
+                        <div class="book-spine opacity-30"></div>
+                        <i class="fas fa-brain text-5xl"></i>
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="flex justify-center text-gray-300 mb-1">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-sm text-gray-400 mb-4 dark:text-gray-500">Em Desenvolvimento</p>
-                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight opacity-50">Mente de Aço</h3>
-                    <p class="text-gray-400 mb-6 italic dark:text-gray-400 opacity-50">Eliminação total de distrações e alta performance.</p>
-                    <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-bold py-4 rounded-2xl uppercase tracking-wide cursor-default">
+                    <h3 class="text-xl font-bold mb-2 dark:text-white uppercase opacity-50">Mente de Aço</h3>
+                    <p class="text-gray-500 mb-6 italic">Performance e foco inabaláveis.</p>
+                    <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 font-bold py-4 rounded-2xl uppercase cursor-default">
                         Em breve
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Sobre Nós -->
-        <section id="sobre" class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-[3rem] p-10 md:p-16 shadow-2xl shadow-blue-500/5 transition-colors duration-300">
+        <!-- Secção Sobre Nós -->
+        <section id="sobre" class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-[3rem] p-10 md:p-16 shadow-2xl transition-colors duration-300">
             <div class="text-center mb-10">
-                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-4">Manifesto</h2>
-                <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">Sobre a Prática Lab</h3>
+                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-4 text-center">Manifesto</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white text-center">Sobre a Prática Lab</h3>
             </div>
             
             <div class="space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-light">
-                <p>
-                    Na <span class="font-bold text-gray-900 dark:text-white">Prática Lab</span>, acreditamos que o conhecimento só tem valor quando pode ser aplicado agora. Vivemos num mundo com excesso de informação e falta de tempo, por isso, decidimos filtrar o ruído por ti.
-                </p>
-                <p>
-                    O nosso laboratório nasceu com uma missão clara: criar guias digitais que sejam diretos, visuais e 100% executáveis.
-                </p>
-                <p>
-                    Nós cortamos as distrações. O que encontras aqui são manuais <span class="italic text-blue-600 dark:text-blue-400">"direto ao ponto"</span>, desenhados para que possas abrir o ficheiro e começar a aplicar os resultados no mesmo minuto. Sem termos complicados, sem perda de tempo.
-                </p>
+                <p>Na <span class="font-bold text-gray-900 dark:text-white">Prática Lab</span>, acreditamos que o conhecimento só tem valor quando pode ser aplicado agora. Vivemos num mundo com excesso de informação e falta de tempo, por isso, decidimos filtrar o ruído por ti.</p>
+                <p>O nosso laboratório nasceu com uma missão clara: criar guias digitais que sejam diretos, visuais e 100% executáveis.</p>
+                <p>Nós cortamos as distrações. O que encontras aqui são manuais <span class="italic text-blue-600 dark:text-blue-400">"direto ao ponto"</span>, desenhados para que possas abrir o ficheiro e começar a aplicar os resultados no mesmo minuto.</p>
                 <div class="pt-6 border-t border-gray-100 dark:border-gray-700 text-center">
-                    <p class="text-xl font-bold text-gray-900 dark:text-white">
-                        Prática Lab: Soluções rápidas para quem não tem tempo a perder.
-                    </p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">Prática Lab: Soluções rápidas para quem não tem tempo a perder.</p>
                 </div>
             </div>
         </section>
@@ -231,90 +209,75 @@
 
     <!-- Rodapé -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
-        <div class="max-w-5xl mx-auto px-4">
+        <div class="max-w-5xl mx-auto px-4 text-center md:text-left">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center mb-12">
-                <div class="text-center md:text-left">
+                <div>
                     <div class="flex items-center justify-center md:justify-start gap-2 text-green-600 font-bold mb-4 dark:text-green-400">
                         <i class="fas fa-lock text-xl"></i>
                         <span>SITE 100% SEGURO</span>
                     </div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">A tua privacidade e segurança são as nossas prioridades. Navegação protegida por SSL.</p>
+                    <p class="text-sm text-gray-500">Privacidade protegida por SSL.</p>
                 </div>
                 <div class="text-center">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 dark:text-gray-500">Pagamento Seguro</p>
-                    <div class="flex flex-wrap justify-center gap-6 text-3xl text-gray-300 dark:text-gray-600">
-                        <span class="pix-icon hover:text-cyan-500 transition-colors cursor-default" title="Pix">PIX</span>
-                        <i class="fab fa-cc-visa hover:text-blue-600 transition-colors"></i>
-                        <i class="fab fa-cc-mastercard hover:text-red-500 transition-colors"></i>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Pagamento Seguro</p>
+                    <div class="flex flex-wrap justify-center gap-6 text-3xl text-gray-300">
+                        <span class="pix-icon">PIX</span>
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
                     </div>
-                    <p class="text-[10px] mt-2 text-gray-400 font-medium dark:text-gray-500 uppercase tracking-wider">Pix · Visa · Mastercard</p>
+                    <p class="text-[10px] mt-2 text-gray-400 uppercase">Pix · Visa · Mastercard</p>
                 </div>
                 <div class="text-center md:text-right">
-                    <p class="text-sm font-semibold text-gray-900 mb-1 dark:text-white uppercase tracking-tighter">Prática Lab</p>
-                    <a href="mailto:praticalab@outlook.com" class="text-blue-600 hover:underline text-sm break-all dark:text-blue-400 font-medium">praticalab@outlook.com</a>
+                    <p class="text-sm font-semibold text-gray-900 mb-1 dark:text-white">Suporte</p>
+                    <a href="mailto:praticalab@outlook.com" class="text-blue-600 text-sm">praticalab@outlook.com</a>
                 </div>
             </div>
-            <div class="border-t border-gray-50 pt-8 text-center dark:border-gray-700">
-                <p class="text-xs text-gray-400">© 2026 Prática Lab. Todos os direitos reservados.</p>
+            <div class="border-t border-gray-50 pt-8 text-center text-xs text-gray-400">
+                © 2026 Prática Lab. Todos os direitos reservados.
             </div>
         </div>
     </footer>
 
-    <!-- MODAL DETALHADO DO PRODUTO -->
-    <div id="product-modal" class="fixed inset-0 z-[200] hidden overflow-y-auto overflow-x-hidden p-4">
+    <!-- MODAL AIRFRYER -->
+    <div id="product-modal" class="fixed inset-0 z-[200] hidden overflow-y-auto p-4">
         <div class="modal-overlay fixed inset-0 bg-gray-900/80" onclick="closeModal()"></div>
-        <div class="relative mx-auto my-8 max-w-3xl rounded-[2.5rem] bg-white shadow-2xl transition-all dark:bg-gray-800">
-            <button onclick="closeModal()" class="absolute right-6 top-6 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
-                <i class="fas fa-times text-2xl"></i>
-            </button>
-
-            <div class="p-8 md:p-12">
-                <div class="flex flex-col md:flex-row gap-10 items-center md:items-start">
-                    <div class="w-48 shrink-0">
-                        <div class="book-container">
-                            <div class="book-card bg-gray-100 dark:bg-gray-700 rounded-r-lg overflow-hidden flex items-center justify-center shadow-lg">
-                                <div class="book-spine"></div>
-                                <img src="1000263004.png" id="modal-img" alt="Capa" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x600/3b82f6/white?text=Airfryer+em+15+Minutos';">
-                            </div>
+        <div class="relative mx-auto my-8 max-w-3xl rounded-[2.5rem] bg-white shadow-2xl dark:bg-gray-800 p-8 md:p-12">
+            <button onclick="closeModal()" class="absolute right-6 top-6 text-gray-400 hover:text-gray-600 dark:hover:text-white"><i class="fas fa-times text-2xl"></i></button>
+            <div class="flex flex-col md:flex-row gap-10">
+                <div class="w-48 shrink-0 mx-auto">
+                    <div class="book-container">
+                        <div class="book-card rounded-r-lg overflow-hidden shadow-lg">
+                            <div class="book-spine"></div>
+                            <img src="Ebook Prática Lab - Airfryer em 15 minutos_20260210_162542_0000.png" class="book-cover-img" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Capa+Airfryer';">
                         </div>
                     </div>
-
-                    <div class="flex-1">
-                        <h2 id="modal-title" class="text-3xl font-black text-gray-900 dark:text-white mb-2 uppercase">Airfryer em 15 Minutos</h2>
-                        <p id="modal-subtitle" class="text-blue-600 dark:text-blue-400 font-bold mb-6 italic text-lg">40 receitas práticas para quem não tem tempo a perder.</p>
+                </div>
+                <div class="flex-1">
+                    <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-2 uppercase">Airfryer em 15 Minutos</h2>
+                    <p class="text-blue-600 dark:text-blue-400 font-bold mb-6 italic text-lg">40 receitas práticas para quem não tem tempo a perder.</p>
+                    
+                    <div class="text-gray-600 dark:text-gray-300 space-y-4 text-sm leading-relaxed">
+                        <p>Você sente que sua Airfryer é subutilizada ou está cansado da bagunça na cozinha após um dia longo de trabalho?</p>
+                        <p>O guia <strong>Airfryer em 15 Minutos</strong> não é apenas mais um livro de receitas. É o manual de sobrevivência da Prática Lab para quem busca eficiência máxima sem abrir mão da saúde e do sabor. Nós filtramos o que realmente funciona para que você possa preparar desde o café da manhã até o jantar, e até sobremesas, em tempo recorde.</p>
                         
-                        <div id="modal-description" class="prose dark:prose-invert text-gray-600 dark:text-gray-300 space-y-4 text-base leading-relaxed">
-                            <p>Você sente que sua Airfryer é subutilizada ou está cansado da bagunça na cozinha após um dia longo de trabalho?</p>
-                            <p>O guia <strong>Airfryer em 15 Minutos</strong> não é apenas mais um livro de receitas. É o manual de sobrevivência da Prática Lab para quem busca eficiência máxima sem abrir mão da saúde e do sabor. Nós filtramos o que realmente funciona para que você possa preparar desde o café da manhã até o jantar, e até sobremesas, em tempo recorde.</p>
-                            
-                            <h4 class="font-bold text-gray-900 dark:text-white text-lg mt-6">O que você vai encontrar no Método Prática Lab:</h4>
-                            <ul class="list-disc pl-5 space-y-2">
-                                <li><strong>40 Receitas Selecionadas:</strong> Divididas entre Café da manhã, almoço, jantar, Acompanhamentos, Sobremesas, Salgados de Boteco e o Congelados Gourmet.</li>
-                                <li><strong>O Caminho Mais Curto:</strong> Instruções diretas (máximo 4 passos por prato) para você não perder tempo lendo textos longos.</li>
-                                <li><strong>Segredos da Crocância:</strong> Como obter texturas perfeitas sem usar uma gota de óleo.</li>
-                                <li><strong>Sujeira Zero:</strong> Foco em receitas que não exigem pilhas de louça depois.</li>
-                            </ul>
-
-                            <h4 class="font-bold text-gray-900 dark:text-white text-lg mt-6">BÔNUS EXCLUSIVOS INCLUSOS:</h4>
-                            <ul class="list-disc pl-5 space-y-2">
-                                <li><strong>Tabela de Conversão Universal:</strong> Aprenda a transformar qualquer receita de forno comum para a Airfryer (tempo e temperatura).</li>
-                                <li><strong>Guia Sujeira Zero:</strong> Truques de limpeza flash para higienizar sua máquina em menos de 2 minutos.</li>
-                                <li><strong>Checklist do Mestre:</strong> Os acessórios que realmente valem o investimento.</li>
-                            </ul>
-
-                            <h4 class="font-bold text-gray-900 dark:text-white text-lg mt-6">Para quem é este guia?</h4>
-                            <p>- Pessoas que moram sozinhas e querem rapidez.<br>
-                               - Famílias que buscam uma alimentação mais saudável e menos gordurosa.<br>
-                               - Quem comprou a Airfryer e só a utiliza para esquentar congelados básicos.</p>
-                            
-                            <p class="font-bold text-blue-600 dark:text-blue-400 mt-6">Transforme sua forma de cozinhar hoje. Clique no botão e garanta seu acesso imediato!</p>
-                        </div>
-
-                        <div class="mt-10">
-                            <a href="https://pay.kiwify.com.br/sCgHDyK" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl transition-all shadow-xl shadow-blue-500/20 uppercase tracking-widest text-lg">
-                                Comprar Ebook Agora
-                            </a>
-                        </div>
+                        <h4 class="font-bold text-gray-900 dark:text-white mt-4">O que vais encontrar no Método Prática Lab:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>40 Receitas Selecionadas</li>
+                            <li>O Caminho Mais Curto (máximo 4 passos)</li>
+                            <li>Segredos da Crocância sem óleo</li>
+                            <li>Sujeira Zero</li>
+                        </ul>
+                        
+                        <h4 class="font-bold text-gray-900 dark:text-white mt-4">BÓNUS EXCLUSIVOS:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Tabela de Conversão Universal</li>
+                            <li>Guia Sujeira Zero</li>
+                            <li>Checklist do Mestre</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="https://pay.kiwify.com.br/sCgHDyK" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl shadow-xl uppercase tracking-widest text-lg">Comprar Ebook Agora</a>
                     </div>
                 </div>
             </div>
@@ -325,52 +288,33 @@
         function filterCategory(category) {
             document.querySelectorAll('.category-tab').forEach(tab => {
                 tab.classList.remove('active');
-                if(tab.innerText.toLowerCase().includes(category) || (category === 'all' && tab.innerText.includes('Todos'))) {
-                    tab.classList.add('active');
-                }
+                if(tab.innerText.toLowerCase().includes(category) || (category === 'all' && tab.innerText.includes('Todos'))) tab.classList.add('active');
             });
-
-            const products = document.querySelectorAll('.product-card-container');
-            products.forEach(product => {
-                if (category === 'all' || product.getAttribute('data-category') === category) {
-                    product.style.display = 'flex';
-                } else {
-                    product.style.display = 'none';
-                }
+            document.querySelectorAll('.product-card-container').forEach(p => {
+                p.style.display = (category === 'all' || p.dataset.category === category) ? 'flex' : 'none';
             });
         }
 
         function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.classList.replace('fa-sun', 'fa-moon');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                icon.classList.replace('fa-moon', 'fa-sun');
-                localStorage.setItem('theme', 'dark');
-            }
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.getElementById('theme-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
         function openAirfryerModal() {
-            const modal = document.getElementById('product-modal');
-            modal.classList.remove('hidden');
+            document.getElementById('product-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            const modal = document.getElementById('product-modal');
-            modal.classList.add('hidden');
+            document.getElementById('product-modal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
 
         window.onload = function() {
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+                document.getElementById('theme-icon').className = 'fas fa-sun';
             }
         }
     </script>
