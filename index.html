@@ -136,8 +136,8 @@
                 <div class="book-container mb-8">
                     <div class="book-card rounded-r-lg overflow-hidden flex items-center justify-center">
                         <div class="book-spine"></div>
-                        <!-- Nome do ficheiro simplificado para evitar erros de URL -->
-                        <img src="capa.png" alt="Airfryer em 15 Minutos" class="book-cover-img" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Capa+Airfryer';">
+                        <!-- Referência ao ficheiro capa.png -->
+                        <img src="./capa.png" alt="Airfryer em 15 Minutos" class="book-cover-img" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Capa+Airfryer';">
                     </div>
                 </div>
                 
@@ -190,7 +190,7 @@
             </div>
         </div>
 
-        <!-- Secção Sobre Nós -->
+        <!-- Sobre Nós -->
         <section id="sobre" class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-[3rem] p-10 md:p-16 shadow-2xl transition-colors duration-300">
             <div class="text-center mb-10">
                 <h2 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-4 text-center">Manifesto</h2>
@@ -209,12 +209,13 @@
     </main>
 
     <!-- Rodapé -->
-    <footer class="bg-white border-t border-gray-100 pt-16 pb-8 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700 text-center md:text-left">
-        <div class="max-w-5xl mx-auto px-4">
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-4 text-center md:text-left">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center mb-12">
                 <div>
-                    <div class="flex items-center justify-center md:justify-start gap-2 text-green-600 font-bold mb-4">
-                        <i class="fas fa-lock"></i> <span>SITE 100% SEGURO</span>
+                    <div class="flex items-center justify-center md:justify-start gap-2 text-green-600 font-bold mb-4 dark:text-green-400">
+                        <i class="fas fa-lock text-xl"></i>
+                        <span>SITE 100% SEGURO</span>
                     </div>
                     <p class="text-sm text-gray-500">Privacidade protegida por SSL.</p>
                 </div>
@@ -247,7 +248,7 @@
                     <div class="book-container">
                         <div class="book-card rounded-r-lg overflow-hidden shadow-lg">
                             <div class="book-spine"></div>
-                            <img src="capa.png" class="book-cover-img" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Capa+Airfryer';">
+                            <img src="./capa.png" class="book-cover-img" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Capa+Airfryer';">
                         </div>
                     </div>
                 </div>
@@ -257,21 +258,12 @@
                     
                     <div class="text-gray-600 dark:text-gray-300 space-y-4 text-sm leading-relaxed">
                         <p>Você sente que sua Airfryer é subutilizada ou está cansado da bagunça na cozinha após um dia longo de trabalho?</p>
-                        <p>O guia <strong>Airfryer em 15 Minutos</strong> não é apenas mais um livro de receitas. É o manual de sobrevivência da Prática Lab para quem busca eficiência máxima sem abrir mão da saúde e do sabor.</p>
-                        
+                        <p>O guia <strong>Airfryer em 15 Minutos</strong> é o manual de sobrevivência da Prática Lab para quem busca eficiência máxima.</p>
                         <h4 class="font-bold text-gray-900 dark:text-white mt-4">O que vais encontrar no Método Prática Lab:</h4>
-                        <ul class="list-disc pl-5 space-y-1">
+                        <ul class="list-disc pl-5">
                             <li>40 Receitas Selecionadas</li>
-                            <li>O Caminho Mais Curto (máximo 4 passos)</li>
-                            <li>Segredos da Crocância sem óleo</li>
-                            <li>Sujeira Zero</li>
-                        </ul>
-                        
-                        <h4 class="font-bold text-gray-900 dark:text-white mt-4">BÓNUS EXCLUSIVOS:</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Tabela de Conversão Universal</li>
-                            <li>Guia Sujeira Zero</li>
-                            <li>Checklist do Mestre</li>
+                            <li>Instruções diretas (máximo 4 passos)</li>
+                            <li>Segredos da Crocância e Sujeira Zero</li>
                         </ul>
                     </div>
                     
