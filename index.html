@@ -19,36 +19,38 @@
             scroll-behavior: smooth;
         }
 
-        /* --- DESIGN LIVRO 3D FÍSICO (CAPA DURA) --- */
+        /* --- DESIGN LIVRO 3D FÍSICO PREMIUM (HARDCOVER) --- */
         :root {
-            --book-w: 180px;
-            --book-h: 260px;
-            --book-d: 26px; /* Grossura do livro */
-            --page-inset: 3px; /* O quanto as páginas ficam "para dentro" da capa */
+            --book-w: 170px;
+            --book-h: 250px;
+            --book-d: 26px; /* Grossura real */
         }
 
-        .book-container {
+        .book-view {
             perspective: 2000px;
             display: flex;
             justify-content: center;
-            padding: 40px 20px;
+            align-items: center;
+            height: 320px;
+            width: 100%;
         }
         
-        .book-3d {
+        .book-inner {
             width: var(--book-w);
             height: var(--book-h);
             position: relative;
             transform-style: preserve-3d;
-            transform: rotateY(-25deg) rotateX(5deg);
-            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: rotateY(-25deg) rotateX(7deg);
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .product-card-container:hover .book-3d {
+        /* Evita que o 3D interfira no modal e remove artefatos */
+        .product-card-container:hover .book-inner {
             transform: rotateY(-5deg) rotateX(0deg) scale(1.05);
         }
 
         /* Capa Frontal */
-        .book-front {
+        .book-face-front {
             position: absolute;
             width: var(--book-w);
             height: var(--book-h);
@@ -57,64 +59,51 @@
             z-index: 10;
             border-radius: 0 4px 4px 0;
             overflow: hidden;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
+            backface-visibility: hidden;
         }
 
-        /* Capa Traseira */
-        .book-back {
-            position: absolute;
-            width: var(--book-w);
-            height: var(--book-h);
-            background: #e2e8f0;
-            transform: translateZ(calc(var(--book-d) / -2)) rotateY(180deg);
-            border-radius: 4px 0 0 4px;
-        }
-
-        /* Lombada Profissional */
-        .book-spine {
+        /* Lombada Arredondada */
+        .book-face-spine {
             position: absolute;
             width: var(--book-d);
             height: var(--book-h);
             left: 0;
             top: 0;
-            background: #111827;
+            background: #0f172a;
             transform: rotateY(-90deg) translateZ(calc(var(--book-d) / 2));
-            border-radius: 2px 0 0 2px;
+            box-shadow: inset -3px 0 8px rgba(255,255,255,0.05), inset 3px 0 10px rgba(0,0,0,0.6);
+            border-radius: 3px 0 0 3px;
+            backface-visibility: hidden;
         }
 
-        /* Bloco de Páginas (com recuo de capa dura) */
-        .book-pages-side {
+        /* Bloco de Páginas com textura */
+        .book-face-pages {
             position: absolute;
-            width: calc(var(--book-d) - 2px);
-            height: calc(var(--book-h) - (var(--page-inset) * 2));
-            top: var(--page-inset);
-            right: 1px;
+            width: calc(var(--book-d) - 4px);
+            height: calc(var(--book-h) - 6px);
+            top: 3px;
+            right: 0;
             background: #fdfaf3;
-            transform: rotateY(90deg) translateZ(calc(var(--book-w) - (var(--book-d) / 2) - 1px));
+            transform: rotateY(90deg) translateZ(calc(var(--book-w) - (var(--book-d) / 2)));
             background-image: repeating-linear-gradient(transparent, transparent 2px, #e2e8f0 3px);
             border-left: 1px solid #cbd5e1;
         }
 
-        .book-pages-top {
+        .book-face-top {
             position: absolute;
             width: calc(var(--book-w) - var(--book-d));
             height: calc(var(--book-d) - 2px);
-            top: 1px;
+            top: 0;
             left: var(--book-d);
-            background: #fdfaf3;
+            background: #f1f5f9;
             transform: rotateX(90deg) translateZ(calc(var(--book-d) / 2 - 1px));
             background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, #e2e8f0 3px);
         }
 
-        /* Efeito de brilho na dobra da lombada */
-        .book-front::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 15px;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
-            z-index: 12;
+        /* Menu fixo deve estar acima do conteúdo mas abaixo do modal */
+        nav {
+            z-index: 50;
         }
 
         .category-tab.active {
@@ -123,30 +112,48 @@
             border-color: #3b82f6;
         }
 
+        /* Selo centralizado e abaixo do menu */
         .promo-badge {
             animation: pulse-soft 2s infinite ease-in-out;
+            z-index: 40; 
         }
 
         @keyframes pulse-soft {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: scale(1) translateX(-50%); }
+            50% { transform: scale(1.05) translateX(-50%); }
         }
 
+        /* Modal Ultra-Prioritário */
         .modal-overlay {
             backdrop-filter: blur(16px);
-            background-color: rgba(17, 24, 39, 0.8);
+            background-color: rgba(15, 23, 42, 0.9);
+            z-index: 2000;
         }
 
-        .price-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-            border: 1px solid #dbeafe;
+        #product-modal {
+            z-index: 2010;
+        }
+
+        /* Cores de preço para Dark Mode */
+        .price-display-main {
+            color: #111827;
+        }
+        .dark .price-display-main {
+            color: #ffffff;
+        }
+        
+        .price-display-promo {
+            color: #2563eb;
+        }
+        .dark .price-display-promo {
+            color: #60a5fa;
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
 
-    <!-- Alternância de Tema -->
-    <div class="fixed top-4 right-4 z-[100]">
+    <!-- Botão de Alternância de Tema -->
+    <div class="fixed top-4 right-4 z-[2100]">
         <button onclick="toggleTheme()" class="p-3 rounded-full bg-white shadow-lg text-gray-800 dark:bg-gray-800 dark:text-yellow-400 transition-all hover:scale-110 active:scale-95">
             <i id="theme-icon" class="fas fa-moon"></i>
         </button>
@@ -168,7 +175,7 @@
     </header>
 
     <!-- Navegação -->
-    <nav class="sticky top-0 bg-white/90 backdrop-blur-md shadow-sm z-50 py-4 dark:bg-gray-900/90 dark:border-b dark:border-gray-800 transition-colors">
+    <nav class="sticky top-0 bg-white/95 backdrop-blur-md shadow-sm py-4 dark:bg-gray-900/95 dark:border-b dark:border-gray-800 transition-colors">
         <div class="max-w-5xl mx-auto px-4">
             <div class="flex flex-wrap justify-center gap-4 text-sm font-medium">
                 <button onclick="filterCategory('all')" class="category-tab active px-6 py-2 rounded-full border border-gray-200 dark:border-gray-700 transition-all">Todos</button>
@@ -185,27 +192,29 @@
             
             <!-- AIRFRYER EM 15 MINUTOS -->
             <div class="product-card-container group bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:shadow-2xl dark:bg-gray-800 dark:shadow-none" data-category="culinaria">
-                <div class="book-container relative">
-                    <div class="absolute -top-6 -right-2 z-[50] promo-badge bg-red-600 text-white text-[9px] font-black px-4 py-2 rounded-full shadow-lg uppercase tracking-widest border-2 border-white dark:border-gray-800">
+                <div class="relative w-full">
+                    <!-- Selo Centralizado (Abaixo do menu z-50) -->
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 promo-badge bg-red-600 text-white text-[9px] font-black px-4 py-2 rounded-full shadow-lg uppercase tracking-widest border-2 border-white dark:border-gray-800 whitespace-nowrap">
                         Oferta de Lançamento
                     </div>
                     
-                    <div class="book-3d">
-                        <div class="book-back"></div>
-                        <div class="book-spine"></div>
-                        <div class="book-pages-top"></div>
-                        <div class="book-pages-side"></div>
-                        <div class="book-front">
-                            <img src="./capa.png" alt="Capa Airfryer" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Airfryer+15min';">
+                    <div class="book-view">
+                        <div class="book-inner">
+                            <div class="book-face-spine"></div>
+                            <div class="book-face-top"></div>
+                            <div class="book-face-pages"></div>
+                            <div class="book-face-front">
+                                <img src="./capa.png" alt="Capa Airfryer" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Airfryer+15min';">
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="w-full mt-8">
+                <div class="w-full mt-2">
                     <p class="text-[10px] text-gray-400 mb-3 uppercase font-bold tracking-tight">Pare de perder tempo na cozinha</p>
                     <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight">Airfryer em 15 minutos</h3>
                     <p class="text-sm text-gray-500 mb-6 italic dark:text-gray-400 font-light leading-relaxed">40 receitas práticas para quem não tem tempo a perder.</p>
-                    <button onclick="openAirfryerModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg uppercase tracking-widest text-xs transform active:scale-95">
+                    <button onclick="openAirfryerModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg uppercase tracking-widest text-xs">
                         SABER MAIS
                     </button>
                 </div>
@@ -213,18 +222,17 @@
 
             <!-- CASA IMPECÁVEL -->
             <div class="product-card-container bg-white rounded-[2.5rem] p-8 opacity-80 dark:bg-gray-800 flex flex-col items-center text-center" data-category="casa">
-                <div class="book-container">
-                    <div class="book-3d opacity-40 grayscale">
-                        <div class="book-back"></div>
-                        <div class="book-spine opacity-50"></div>
-                        <div class="book-pages-top"></div>
-                        <div class="book-pages-side"></div>
-                        <div class="book-front flex items-center justify-center bg-gray-100">
+                <div class="book-view">
+                    <div class="book-inner opacity-40 grayscale">
+                        <div class="book-face-spine opacity-50"></div>
+                        <div class="book-face-top"></div>
+                        <div class="book-face-pages"></div>
+                        <div class="book-face-front flex items-center justify-center bg-gray-100">
                              <i class="fas fa-home text-4xl text-gray-400"></i>
                         </div>
                     </div>
                 </div>
-                <div class="w-full mt-8">
+                <div class="w-full mt-2">
                     <h3 class="text-lg font-bold mb-1 dark:text-white uppercase opacity-50 leading-tight">Casa Impecável em 20 Minutos</h3>
                     <p class="text-xs text-gray-400 mb-6 italic">Em breve na Prática Lab.</p>
                     <button class="w-full bg-gray-100 dark:bg-gray-700 text-gray-400 font-bold py-4 rounded-2xl uppercase text-xs cursor-default">Em breve</button>
@@ -233,18 +241,17 @@
 
             <!-- O MÉTODO DOS 15 MINUTOS -->
             <div class="product-card-container bg-white rounded-[2.5rem] p-8 opacity-80 dark:bg-gray-800 flex flex-col items-center text-center" data-category="mente">
-                <div class="book-container">
-                    <div class="book-3d opacity-40 grayscale">
-                        <div class="book-back"></div>
-                        <div class="book-spine opacity-50"></div>
-                        <div class="book-pages-top"></div>
-                        <div class="book-pages-side"></div>
-                        <div class="book-front flex items-center justify-center bg-gray-100">
+                <div class="book-view">
+                    <div class="book-inner opacity-40 grayscale">
+                        <div class="book-face-spine opacity-50"></div>
+                        <div class="book-face-top"></div>
+                        <div class="book-face-pages"></div>
+                        <div class="book-face-front flex items-center justify-center bg-gray-100">
                              <i class="fas fa-brain text-4xl text-gray-400"></i>
                         </div>
                     </div>
                 </div>
-                <div class="w-full mt-8">
+                <div class="w-full mt-2">
                     <h3 class="text-lg font-bold mb-1 dark:text-white uppercase opacity-50 leading-tight">O Método dos 15 Minutos</h3>
                     <p class="text-xs text-gray-400 mb-6 italic">Em breve na Prática Lab.</p>
                     <button class="w-full bg-gray-100 dark:bg-gray-700 text-gray-400 font-bold py-4 rounded-2xl uppercase text-xs cursor-default">Em breve</button>
@@ -263,7 +270,7 @@
                 <p>Nosso laboratório nasceu com uma missão clara: criar guias digitais que sejam diretos, visuais e 100% executáveis.</p>
                 <p>Nós cortamos as distrações. O que você encontra aqui são manuais <span class="italic text-blue-600 dark:text-blue-400">"direto ao ponto"</span>, desenhados para que você possa abrir o arquivo e começar a aplicar os resultados no mesmo minuto.</p>
                 <div class="pt-6 border-t border-gray-100 dark:border-gray-700">
-                    <p class="text-xl font-bold text-gray-900 dark:text-white italic tracking-tight">Prática Lab: Soluções rápidas para quem não tem tempo a perder.</p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white italic tracking-tight text-center">Prática Lab: Soluções rápidas para quem não tem tempo a perder.</p>
                 </div>
             </div>
         </section>
@@ -299,21 +306,20 @@
         </div>
     </footer>
 
-    <!-- MODAL AIRFRYER -->
-    <div id="product-modal" class="fixed inset-0 z-[500] hidden overflow-y-auto p-4">
+    <!-- MODAL AIRFRYER (Z-INDEX E TEXTOS CORRIGIDOS) -->
+    <div id="product-modal" class="fixed inset-0 hidden overflow-y-auto">
         <div class="modal-overlay fixed inset-0" onclick="closeModal()"></div>
-        <div class="relative mx-auto my-8 max-w-4xl rounded-[3rem] bg-white shadow-2xl dark:bg-gray-800 p-8 md:p-14 transition-all">
-            <button onclick="closeModal()" class="absolute right-8 top-8 text-gray-400 hover:text-blue-600 transition-colors z-[600]"><i class="fas fa-times text-3xl"></i></button>
+        <div class="relative mx-auto my-8 max-w-4xl rounded-[3rem] bg-white shadow-2xl dark:bg-gray-800 p-8 md:p-14 transition-all z-[2100]">
+            <button onclick="closeModal()" class="absolute right-8 top-8 text-gray-400 hover:text-blue-600 transition-colors z-[2200]"><i class="fas fa-times text-3xl"></i></button>
             <div class="flex flex-col md:flex-row gap-14 items-center md:items-start">
                 
                 <div class="w-56 shrink-0">
-                    <div class="book-container !p-0">
-                        <div class="book-3d !transform-none !scale-110">
-                            <div class="book-back"></div>
-                            <div class="book-spine"></div>
-                            <div class="book-pages-top"></div>
-                            <div class="book-pages-side"></div>
-                            <div class="book-front">
+                    <div class="book-view !h-auto">
+                        <div class="book-inner !transform-none !scale-110">
+                            <div class="book-face-spine"></div>
+                            <div class="book-face-top"></div>
+                            <div class="book-face-pages"></div>
+                            <div class="book-face-front">
                                 <img src="./capa.png" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x600/3b82f6/white?text=Airfryer+15min';">
                             </div>
                         </div>
@@ -343,22 +349,22 @@
                             <h4 class="font-bold text-gray-900 dark:text-white uppercase text-sm tracking-widest border-l-4 border-blue-600 pl-3">BÔNUS EXCLUSIVOS INCLUSOS:</h4>
                             <ul class="space-y-2 text-sm pl-2">
                                 <li><strong>• Tabela de Conversão Universal:</strong> Aprenda a transformar qualquer receita de forno comum.</li>
-                                <li><strong>• Guia Sujeira Zero:</strong> Truques de limpeza flash em menos de 2 minutos.</li>
+                                <li><strong>• Guia Sujeira Zero:</strong> Truques de limpeza rápida em menos de 2 minutos.</li>
                                 <li><strong>• Checklist do Mestre:</strong> Acessórios que realmente valem a pena.</li>
                             </ul>
                         </div>
 
-                        <!-- SEÇÃO DE PREÇO -->
-                        <div class="mt-10 p-10 price-card rounded-[2.5rem] text-center shadow-inner">
+                        <!-- SEÇÃO DE PREÇO (VISIBILIDADE CORRIGIDA) -->
+                        <div class="mt-10 p-10 rounded-[2.5rem] text-center shadow-inner bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
                             <p class="text-[10px] font-black text-blue-700 dark:text-blue-400 uppercase tracking-[0.2em] mb-4 italic">PARE DE PERDER TEMPO NA COZINHA HOJE MESMO.</p>
                             <div class="flex flex-col items-center">
-                                <span class="text-gray-400 line-through text-base font-medium">De R$ 67,00</span>
-                                <span class="text-5xl font-black text-gray-900 dark:text-white my-2 tracking-tighter">R$ 29,90</span>
-                                <span class="text-sm text-blue-600 dark:text-blue-400 font-bold italic tracking-tight">(Ou menos que o valor de um lanche no iFood)</span>
+                                <span class="text-gray-400 dark:text-gray-500 line-through text-base font-medium">De R$ 67,00</span>
+                                <span class="text-5xl font-black my-2 tracking-tighter price-display-main">R$ 29,90</span>
+                                <span class="text-sm font-bold italic tracking-tight price-display-promo">(Ou menos que o valor de um lanche no iFood)</span>
                             </div>
                         </div>
                         
-                        <p class="font-bold text-blue-600 dark:text-blue-400 mt-10 text-center text-xl italic tracking-tight underline decoration-blue-200 underline-offset-8">Transforme sua forma de cozinhar hoje. Clique no botão e garanta seu acesso imediato!</p>
+                        <p class="font-bold text-blue-600 dark:text-blue-400 mt-10 text-center text-xl italic tracking-tight underline decoration-blue-200 underline-offset-8 text-center">Transforme sua forma de cozinhar hoje. Clique no botão e garanta seu acesso imediato!</p>
                     </div>
                     
                     <div class="mt-10">
