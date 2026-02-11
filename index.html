@@ -19,20 +19,23 @@
             scroll-behavior: smooth;
         }
 
-        /* --- DESIGN LIVRO 3D FÍSICO PREMIUM (HARDCOVER) --- */
+        /* --- DESIGN LIVRO 3D FÍSICO PREMIUM --- */
         :root {
-            --book-w: 170px;
-            --book-h: 250px;
-            --book-d: 26px; /* Grossura real */
+            --book-w: 160px;
+            --book-h: 240px;
+            --book-d: 24px;
         }
 
+        /* Container com isolamento para evitar vazamentos visuais */
         .book-view {
             perspective: 2000px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 320px;
+            height: 300px;
             width: 100%;
+            overflow: visible; /* Permitir o selo flutuar acima */
+            position: relative;
         }
         
         .book-inner {
@@ -41,10 +44,11 @@
             position: relative;
             transform-style: preserve-3d;
             transform: rotateY(-25deg) rotateX(7deg);
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
         }
 
-        /* Evita que o 3D interfira no modal e remove artefatos */
+        /* Ajuste fino para não vazar do bloco lateral */
         .product-card-container:hover .book-inner {
             transform: rotateY(-5deg) rotateX(0deg) scale(1.05);
         }
@@ -57,13 +61,13 @@
             background: #fff;
             transform: translateZ(calc(var(--book-d) / 2));
             z-index: 10;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 3px 3px 0;
             overflow: hidden;
-            box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
             backface-visibility: hidden;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
         }
 
-        /* Lombada Arredondada */
+        /* Lombada */
         .book-face-spine {
             position: absolute;
             width: var(--book-d);
@@ -72,17 +76,17 @@
             top: 0;
             background: #0f172a;
             transform: rotateY(-90deg) translateZ(calc(var(--book-d) / 2));
-            box-shadow: inset -3px 0 8px rgba(255,255,255,0.05), inset 3px 0 10px rgba(0,0,0,0.6);
             border-radius: 3px 0 0 3px;
             backface-visibility: hidden;
+            box-shadow: inset -3px 0 8px rgba(255,255,255,0.05), inset 3px 0 10px rgba(0,0,0,0.6);
         }
 
-        /* Bloco de Páginas com textura */
+        /* Bloco de Páginas */
         .book-face-pages {
             position: absolute;
-            width: calc(var(--book-d) - 4px);
-            height: calc(var(--book-h) - 6px);
-            top: 3px;
+            width: var(--book-d);
+            height: calc(var(--book-h) - 4px);
+            top: 2px;
             right: 0;
             background: #fdfaf3;
             transform: rotateY(90deg) translateZ(calc(var(--book-w) - (var(--book-d) / 2)));
@@ -92,18 +96,25 @@
 
         .book-face-top {
             position: absolute;
-            width: calc(var(--book-w) - var(--book-d));
-            height: calc(var(--book-d) - 2px);
+            width: calc(var(--book-w) - 4px);
+            height: var(--book-d);
             top: 0;
-            left: var(--book-d);
+            left: 2px;
             background: #f1f5f9;
-            transform: rotateX(90deg) translateZ(calc(var(--book-d) / 2 - 1px));
+            transform: rotateX(90deg) translateZ(calc(var(--book-d) / 2));
             background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, #e2e8f0 3px);
         }
 
-        /* Menu fixo deve estar acima do conteúdo mas abaixo do modal */
-        nav {
-            z-index: 50;
+        /* Selo - Posicionamento Corrigido para não tapar a capa */
+        .promo-badge {
+            animation: pulse-soft 2s infinite ease-in-out;
+            z-index: 40; 
+            top: -25px; /* Subi o selo para não tapar a capa */
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1) translateX(-50%); }
+            50% { transform: scale(1.05) translateX(-50%); }
         }
 
         .category-tab.active {
@@ -112,21 +123,10 @@
             border-color: #3b82f6;
         }
 
-        /* Selo centralizado e abaixo do menu */
-        .promo-badge {
-            animation: pulse-soft 2s infinite ease-in-out;
-            z-index: 40; 
-        }
-
-        @keyframes pulse-soft {
-            0%, 100% { transform: scale(1) translateX(-50%); }
-            50% { transform: scale(1.05) translateX(-50%); }
-        }
-
-        /* Modal Ultra-Prioritário */
+        /* Modal e Overlays */
         .modal-overlay {
             backdrop-filter: blur(16px);
-            background-color: rgba(15, 23, 42, 0.9);
+            background-color: rgba(15, 23, 42, 0.95);
             z-index: 2000;
         }
 
@@ -134,25 +134,15 @@
             z-index: 2010;
         }
 
-        /* Cores de preço para Dark Mode */
-        .price-display-main {
-            color: #111827;
-        }
-        .dark .price-display-main {
-            color: #ffffff;
-        }
-        
-        .price-display-promo {
-            color: #2563eb;
-        }
-        .dark .price-display-promo {
-            color: #60a5fa;
+        /* Preço no Modo Escuro */
+        .dark .price-main {
+            color: #ffffff !important;
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
 
-    <!-- Botão de Alternância de Tema -->
+    <!-- Alternar Tema -->
     <div class="fixed top-4 right-4 z-[2100]">
         <button onclick="toggleTheme()" class="p-3 rounded-full bg-white shadow-lg text-gray-800 dark:bg-gray-800 dark:text-yellow-400 transition-all hover:scale-110 active:scale-95">
             <i id="theme-icon" class="fas fa-moon"></i>
@@ -174,8 +164,8 @@
         </div>
     </header>
 
-    <!-- Navegação -->
-    <nav class="sticky top-0 bg-white/95 backdrop-blur-md shadow-sm py-4 dark:bg-gray-900/95 dark:border-b dark:border-gray-800 transition-colors">
+    <!-- Navegação (Z-INDEX SUPERIOR) -->
+    <nav class="sticky top-0 bg-white/95 backdrop-blur-md shadow-sm py-4 dark:bg-gray-900/95 dark:border-b dark:border-gray-800 transition-colors z-[100]">
         <div class="max-w-5xl mx-auto px-4">
             <div class="flex flex-wrap justify-center gap-4 text-sm font-medium">
                 <button onclick="filterCategory('all')" class="category-tab active px-6 py-2 rounded-full border border-gray-200 dark:border-gray-700 transition-all">Todos</button>
@@ -191,14 +181,16 @@
         <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 mb-24">
             
             <!-- AIRFRYER EM 15 MINUTOS -->
-            <div class="product-card-container group bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:shadow-2xl dark:bg-gray-800 dark:shadow-none" data-category="culinaria">
-                <div class="relative w-full">
-                    <!-- Selo Centralizado (Abaixo do menu z-50) -->
-                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 promo-badge bg-red-600 text-white text-[9px] font-black px-4 py-2 rounded-full shadow-lg uppercase tracking-widest border-2 border-white dark:border-gray-800 whitespace-nowrap">
+            <div class="product-card-container group bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center text-center transition-all hover:shadow-2xl dark:bg-gray-800 dark:shadow-none relative" data-category="culinaria">
+                <div class="relative w-full flex flex-col items-center">
+                    
+                    <!-- Selo Corrigido (Subido) -->
+                    <div class="absolute left-1/2 -translate-x-1/2 promo-badge bg-red-600 text-white text-[9px] font-black px-4 py-2 rounded-full shadow-lg uppercase tracking-widest border-2 border-white dark:border-gray-800 whitespace-nowrap">
                         Oferta de Lançamento
                     </div>
                     
-                    <div class="book-view">
+                    <!-- Container do Efeito 3D com isolamento lateral -->
+                    <div class="book-view overflow-hidden">
                         <div class="book-inner">
                             <div class="book-face-spine"></div>
                             <div class="book-face-top"></div>
@@ -210,7 +202,7 @@
                     </div>
                 </div>
                 
-                <div class="w-full mt-2">
+                <div class="w-full mt-4">
                     <p class="text-[10px] text-gray-400 mb-3 uppercase font-bold tracking-tight">Pare de perder tempo na cozinha</p>
                     <h3 class="text-xl font-bold mb-2 dark:text-white uppercase tracking-tight">Airfryer em 15 minutos</h3>
                     <p class="text-sm text-gray-500 mb-6 italic dark:text-gray-400 font-light leading-relaxed">40 receitas práticas para quem não tem tempo a perder.</p>
@@ -221,7 +213,7 @@
             </div>
 
             <!-- CASA IMPECÁVEL -->
-            <div class="product-card-container bg-white rounded-[2.5rem] p-8 opacity-80 dark:bg-gray-800 flex flex-col items-center text-center" data-category="casa">
+            <div class="product-card-container bg-white rounded-[2.5rem] p-8 opacity-80 dark:bg-gray-800 flex flex-col items-center text-center overflow-hidden" data-category="casa">
                 <div class="book-view">
                     <div class="book-inner opacity-40 grayscale">
                         <div class="book-face-spine opacity-50"></div>
@@ -232,7 +224,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full mt-2">
+                <div class="w-full mt-4">
                     <h3 class="text-lg font-bold mb-1 dark:text-white uppercase opacity-50 leading-tight">Casa Impecável em 20 Minutos</h3>
                     <p class="text-xs text-gray-400 mb-6 italic">Em breve na Prática Lab.</p>
                     <button class="w-full bg-gray-100 dark:bg-gray-700 text-gray-400 font-bold py-4 rounded-2xl uppercase text-xs cursor-default">Em breve</button>
@@ -240,7 +232,7 @@
             </div>
 
             <!-- O MÉTODO DOS 15 MINUTOS -->
-            <div class="product-card-container bg-white rounded-[2.5rem] p-8 opacity-80 dark:bg-gray-800 flex flex-col items-center text-center" data-category="mente">
+            <div class="product-card-container bg-white rounded-[2.5rem] p-8 opacity-80 dark:bg-gray-800 flex flex-col items-center text-center overflow-hidden" data-category="mente">
                 <div class="book-view">
                     <div class="book-inner opacity-40 grayscale">
                         <div class="book-face-spine opacity-50"></div>
@@ -251,7 +243,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full mt-2">
+                <div class="w-full mt-4">
                     <h3 class="text-lg font-bold mb-1 dark:text-white uppercase opacity-50 leading-tight">O Método dos 15 Minutos</h3>
                     <p class="text-xs text-gray-400 mb-6 italic">Em breve na Prática Lab.</p>
                     <button class="w-full bg-gray-100 dark:bg-gray-700 text-gray-400 font-bold py-4 rounded-2xl uppercase text-xs cursor-default">Em breve</button>
@@ -306,7 +298,7 @@
         </div>
     </footer>
 
-    <!-- MODAL AIRFRYER (Z-INDEX E TEXTOS CORRIGIDOS) -->
+    <!-- MODAL AIRFRYER (CORRIGIDO) -->
     <div id="product-modal" class="fixed inset-0 hidden overflow-y-auto">
         <div class="modal-overlay fixed inset-0" onclick="closeModal()"></div>
         <div class="relative mx-auto my-8 max-w-4xl rounded-[3rem] bg-white shadow-2xl dark:bg-gray-800 p-8 md:p-14 transition-all z-[2100]">
@@ -359,8 +351,8 @@
                             <p class="text-[10px] font-black text-blue-700 dark:text-blue-400 uppercase tracking-[0.2em] mb-4 italic">PARE DE PERDER TEMPO NA COZINHA HOJE MESMO.</p>
                             <div class="flex flex-col items-center">
                                 <span class="text-gray-400 dark:text-gray-500 line-through text-base font-medium">De R$ 67,00</span>
-                                <span class="text-5xl font-black my-2 tracking-tighter price-display-main">R$ 29,90</span>
-                                <span class="text-sm font-bold italic tracking-tight price-display-promo">(Ou menos que o valor de um lanche no iFood)</span>
+                                <span class="text-5xl font-black my-2 tracking-tighter price-main dark:text-white">R$ 29,90</span>
+                                <span class="text-sm font-bold italic tracking-tight text-blue-600 dark:text-blue-400">(Ou menos que o valor de um lanche no iFood)</span>
                             </div>
                         </div>
                         
